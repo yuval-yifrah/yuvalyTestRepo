@@ -1,0 +1,25 @@
+version: '2'
+
+# Note: use the database service name `db` in the Host IP Address field ...
+# Or, `docker container inspect {postgrescontainerid}` to obtain the IP Address needed for completing the Drupal setup screen.
+
+services:
+  # Postgres
+  db:
+    image: postgres:latest
+    container_name: yuvalyTest
+    environment:
+      POSTGRES_DB: drupaldb
+      POSTGRES_USER: drupaluser
+      POSTGRES_PASSWORD: drupalpassword
+    ports:
+      - 5432:5432
+  
+  # Drupal
+  cms:
+    image: drupal:latest
+    restart: always
+    ports:
+      - 8080:80
+    depends_on:
+      - db
